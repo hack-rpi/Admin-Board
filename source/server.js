@@ -3,6 +3,7 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
 	passport = require('passport'),
+	flash = require('connect-flash'),
 	config = require('./config'),
 	app = express();
 	
@@ -23,12 +24,15 @@ app.use(session({
 	saveUninitialized: false,
 	resave: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 require('./middlewares/passport');
 
-var controllers = require('./controllers');
-app.use('/', controllers);
+app.use(flash());
+app.use('/', require('./middlewares/flash'));
+
+app.use('/', require('./controllers'));
 
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');

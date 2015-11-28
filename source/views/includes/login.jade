@@ -1,9 +1,14 @@
-form(action='/login', method='post')
+form.login(action="/login", method="POST")
 	div
 		label Username
-		input(type='test', name='username')
+		input(type="test", name="username")
 	div
 		label Password
-		input(type='password', name='password')
+		input(type="password", name="password")
 	div
-		input(type='submit', value='Log In')
+		input(type="submit", value="Log In")
+
+script(src="/libs/jquery")
+
+script(src="/script/forms.js")
+script(src="/script/login.js")

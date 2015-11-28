@@ -1,0 +1,37 @@
+@import "./index.less";
+
+.footer {
+	
+	width: 100%;
+	margin-top: 20px;
+	display: -webkit-flex;
+	display: 	 -ms-flex;
+	display: 		 flex;
+	flex-wrap: wrap;
+	
+	div {
+		flex: auto;
+		height: 25px;
+		text-align: center;
+		a {
+			margin-left: 5px;
+		}
+	}
+	
+	@media only screen and (max-width: @small) {
+		div {
+			flex-basis: 100%;
+		}
+	}
+	@media only screen and (min-width: @small) and (max-width: @large) {
+		div {
+			flex-basis: 100%;
+		}
+	}
+	@media only screen and (min-width: @large) {
+		div {
+			flex-basis: 33%;
+		}
+	}
+	
+}

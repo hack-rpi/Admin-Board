@@ -1,1 +1,22 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+@small: 480px;
+@large: 960px;
+
+body {
+	font-family: 'Raleway', sans-serif;
+}
+
+.container {	
+	@media only screen and (max-width: @small) {
+		width: 100%;
+		font-size: 32px;
+	}
+	@media only screen and (min-width: @small) and (max-width: @large) {
+		font-size: 26px;
+	}
+	@media only screen and (min-width: @large) {
+		width: 70%;
+		margin: auto;
+	}
+}

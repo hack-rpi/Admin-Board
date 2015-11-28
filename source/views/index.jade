@@ -1,12 +1,13 @@
-doctype html
-html
-	head
-		title!= title
-		link(rel='stylesheet', href='/style/index.css')
-	body
-		div.container
-			h2!= username
-		
-			p Login
+include ./includes/header.jade
 
-			include ./includes/login.jade
+div.container
+	h2!= username
+
+	if (error && error.length != 0)
+		strong #{error}
+
+	p Login
+
+	include ./includes/login.jade
+	
+include ./includes/footer.jade

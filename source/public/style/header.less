@@ -1,0 +1,44 @@
+@import "./index.less";
+
+.header {
+	
+	width: 100%;
+	margin-bottom: 20px;
+	display: -webkit-flex;
+	display: 	 -ms-flex;
+	display: 		 flex;
+	flex-wrap: wrap;
+	
+	a {
+		text-decoration: none;
+	}
+	
+	div {
+		flex: auto;
+		height: 25px;
+		text-align: center;
+	}
+	
+	.user-buttons {
+		a {
+			margin-left: 5px;
+		}
+	}
+	
+	@media only screen and (max-width: @small) {
+		div {
+			flex-basis: 100%;
+		}
+	}
+	@media only screen and (min-width: @small) and (max-width: @large) {
+		div {
+			flex-basis: 100%;
+		}
+	}
+	@media only screen and (min-width: @large) {
+		div {
+			flex-basis: 50%;
+		}
+	}
+	
+}
