@@ -32,7 +32,7 @@ require('./middlewares/passport');
 app.use(flash());
 app.use('/', require('./middlewares/flash'));
 
-app.use('/', require('./controllers'));
+app.use('/', require('./routes'));
 
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');
