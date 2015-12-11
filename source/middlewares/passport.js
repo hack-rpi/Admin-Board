@@ -12,13 +12,13 @@ passport.deserializeUser(function(id, done) {
 });
 	
 passport.use(new LocalStrategy(
-	function(username, pwd, done) {
-		users.findUserByUsername(username, function(err, doc) {
+	function(email, pwd, done) {
+		users.findUserByEmail('poegem@rpi.edu', function(err, doc) {
 			if (err) {
 				return done(err);
 			}
 			if (! doc) {
-				return done(null, false, { message: 'Incorrect username.' });
+				return done(null, false, { message: 'Incorrect email.' });
 			}
 			password.isMatch(pwd, doc.auth, function(match) {
 				if (match) {

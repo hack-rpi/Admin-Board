@@ -11,11 +11,17 @@ html
 			div.splash
 				a(href="/") Admin Board
 			div.user-buttons
-				if (username)
+				if (email)
 					span Welcome, 
-					span!=username
+					span!=email
 					a(href="/logout") Log Out
 				else
 					a(href="/login") Log In
 					a(href="/register") Register
+	if (notice && notice.length != 0)
+		strong #{notice}
+	if (success && success.length != 0)
+		strong #{success}
+	if (error && error.length != 0)
+		strong #{error}
 		

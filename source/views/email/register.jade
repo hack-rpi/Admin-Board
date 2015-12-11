@@ -1,0 +1,13 @@
+div.container
+	include header
+	div.content
+		p Hello #{name},
+		p.
+			Thanks for registering on Admin Board! Please confirm
+			your email by clicking on the link below.
+		div.center
+			div.btn 
+				a(href="#{url}") Confirm Email
+		p.
+			- The Admin Board Team 
+	include footer
