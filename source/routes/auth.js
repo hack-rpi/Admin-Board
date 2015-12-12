@@ -2,6 +2,7 @@ var express = require('express'),
 	passport = require('passport'),
 	users = require('../models/users'),
 	mailer = require('../helpers/mailer'),
+	password = require('../helpers/password'),
 	router = express.Router();
 
 router.get('/login', function(req, res) {
@@ -30,17 +31,18 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res, next) {
-	var email = req.body.username,
-		password = req.body.password;
+	var email = req.body.email,
+		pwd = req.body.password;
+	var token = password.generateToken();
 	if (email === '') {
 		req.flash('error', 'No email provided.');
 		return res.redirect('/register');
 	}
-	else if (password === '') {
+	else if (pwd === '') {
 		req.flash('error', 'No password provided.');
 		return res.redirect('/register');
 	}
-	users.createUser(email, password, {}, function(err, doc) {
+	users.createUser(email, pwd, {}, function(err, doc) {
 		if (err) {
 			if (err.showUser) {
 				req.flash('error', err.message);
@@ -50,9 +52,56 @@ router.post('/register', function(req, res, next) {
 			}
 			return res.redirect('/register');
 		}
-		mailer.confirmRegistration(req, res, email);
-		return res.redirect('/');
+		req.login(doc, function(err) {
+			if (err) {
+				req.flash('error', 'Log in failed.');
+				return res.redirect('/');
+			}
+			users.updateOne({ _id: doc._id }, { '$set': { token: token } }, function(err, result) {
+				if (err) {
+					req.flash('error', 'Failed to send verification email.');
+					return res.redirect('/');
+				}
+				doc.token = token;
+				mailer.confirmRegistration(doc, function(err, state) {
+					if (err) {
+						req.flash('error', 'Failed to send verification email.');
+					}
+					else {
+						req.flash('success', 'Verification email sent.');
+					}
+					return res.redirect('/');
+				});
+			});
+		});
 	});
+});
+
+router.get('/verify', function(req, res, next) {
+	var id = req.query.id,
+		token = req.query.token;
+	if (id && token) {
+		users.verifyEmail(id, token, function(err, state) {
+			if (err) {
+				if (err.showUser) {
+					req.flash('error', err.message);
+				}
+				else {
+					req.flash('error', 'Unable to verify email address.');
+				}
+			}
+			else if (state) {
+				req.flash('success', 'Email address verified.');
+			}
+			else {
+				req.flash('error', 'Token expired.');
+			}
+			return res.redirect('/');
+		});
+	}
+	else {
+		res.redirect('/');		
+	}
 });
 
 module.exports = router;

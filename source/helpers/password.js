@@ -8,7 +8,11 @@ var LEN = 256,
 var crypto = require('crypto'); 
 
 /**
- * 
+ * Generate a hash of a password with the given salt
+ * @param {string} password
+ * @param {salt} salt to use to hash the password
+ * @param {callback} function to call with the resulting hash
+ * 	on completion
  */
 exports.hash = function(password, salt, callback) {
 	var len = LEN / 1;
@@ -18,7 +22,7 @@ exports.hash = function(password, salt, callback) {
 				return callback(err);
 			}
 			return callback(null, derivedKey.toString('hex'));
-		});		
+		});
 	}
 	else {
 		callback = salt;
@@ -37,12 +41,30 @@ exports.hash = function(password, salt, callback) {
 	}
 }
 
-
 /**
- * 
+ * Determines if a password matches the hash
+ * @param {string} password
+ * @param {authorizationObject} authorization objects that contains
+ * 	the salt and the hash generated with that salt
+ * @param {callback} callback function to call with the result
+ * 	of the comparison
  */
 exports.isMatch = function(password, auth, callback) {
 	exports.hash(password, auth.salt, function(err, hash) {
 		callback(auth.hash === hash);
 	});
+}
+
+/**
+ * Generate a random token with an expiration date of 24 hours.
+ * @returns {tokenObject} token object
+ */
+exports.generateToken = function() {
+	var token = crypto.randomBytes(32).toString('hex'),
+		exp = new Date();
+	exp.setDate(exp.getDate() + 1);
+	return {
+		token: token,
+		expires: exp
+	};
 }

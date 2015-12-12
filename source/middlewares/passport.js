@@ -12,6 +12,10 @@ passport.deserializeUser(function(id, done) {
 });
 	
 passport.use(new LocalStrategy(
+	{
+		usernameField: 'email',
+		passwordField: 'password'
+	},
 	function(email, pwd, done) {
 		users.findUserByEmail('poegem@rpi.edu', function(err, doc) {
 			if (err) {

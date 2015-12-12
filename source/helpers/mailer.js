@@ -29,28 +29,29 @@ function send(recipients, subject, content, callback) {
 /**
  * 
  */
-exports.confirmRegistration = function(req, res, email) {
-	var template = __dirname + '/../views/email/register.jade';
+exports.confirmRegistration = function(doc, callback) {
+	var template = __dirname + '/../views/email/register.jade',
+		email = doc.email.address;
 	fs.readFile(template, 'utf8', function(err, file) {
 		if (err) {
-			return res.send('error');
+			return callback(err, false);
 		}
 		var fn = jade.compile(file, { filename: template }),
 			context = {
 				name: 'Registrant',
-				url: 'https://google.com'
+				url: config.root_url + '/verify?id=' + doc._id + '&token=' + doc.token.token
 			},
 			html = fn(context),
 			juiceOptions = {};
 		juice.juiceResources(html, juiceOptions, function(err, html) {
 			if (err) {
-				return res.send('error');
+				return callback(err, false);
 			}
 			send(email, 'Confirmation Email', html, function(err, info) {
 				if (err) {
-					req.flash('error', 'Failed to send verification email.');
+					return callback(err, false);
 				}
-				req.flash('success', 'Verification email sent.');
+				return callback(null, true);
 			});
 		});
 	});
