@@ -1,27 +1,26 @@
 doctype html
 html
-	head
-		title!= title
-		meta(name="viewport" content="width=device-width")
-		link(rel="stylesheet", href="/style/index.css")
-		link(rel="stylesheet", href="/style/header.css")
-		link(rel="stylesheet", href="/style/footer.css")
-	body
-		div.header
-			div.splash
-				a(href="/") Admin Board
-			div.user-buttons
-				if (email)
-					span Welcome, 
-					span!=email
-					a(href="/logout") Log Out
-				else
-					a(href="/login") Log In
-					a(href="/register") Register
-	if (notice && notice.length != 0)
-		strong #{notice}
-	if (success && success.length != 0)
-		strong #{success}
-	if (error && error.length != 0)
-		strong #{error}
-		
+  head
+    title!= title
+    meta(name="viewport" content="width=device-width")
+    link(rel="stylesheet", href="/style/index.css")
+    link(rel="stylesheet", href="/style/header.css")
+    link(rel="stylesheet", href="/style/footer.css")
+  body
+    div.header
+      div.splash
+        a(href="/") Admin Board
+      div.user-buttons
+        if (user)
+          span Welcome, 
+          a(href="/user/" + user._id)!=user.email.address
+          a(href="/logout") Log Out
+        else
+          a(href="/login") Log In
+          a(href="/register") Register
+  if (notice && notice.length != 0)
+    strong #{notice}
+  if (success && success.length != 0)
+    strong #{success}
+  if (error && error.length != 0)
+    strong #{error}

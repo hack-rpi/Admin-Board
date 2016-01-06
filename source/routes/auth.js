@@ -32,7 +32,7 @@ router.get('/register', function(req, res) {
 
 router.post('/register', function(req, res, next) {
 	var email = req.body.email,
-		pwd = req.body.password;
+		  pwd = req.body.password;
 	var token = password.generateToken();
 	if (email === '') {
 		req.flash('error', 'No email provided.');
@@ -79,7 +79,7 @@ router.post('/register', function(req, res, next) {
 
 router.get('/verify', function(req, res, next) {
 	var id = req.query.id,
-		token = req.query.token;
+		  token = req.query.token;
 	if (id && token) {
 		users.verifyEmail(id, token, function(err, state) {
 			if (err) {
@@ -102,6 +102,23 @@ router.get('/verify', function(req, res, next) {
 	else {
 		res.redirect('/');		
 	}
+});
+
+router.get('/user/*', function(req, res, next) {
+  if (! req.user) {
+    req.flash('error', 'You must log in to see this page.');
+    return res.redirect('/login');
+  }
+  var uid = req.params['0'];
+  users.findUserById(uid, function(err, doc) {
+    if (err) {
+      req.flash('error', 'User not found.');
+      return res.redirect('/');
+    }
+    return res.render('user', {
+      user_data: doc
+    });
+  });
 });
 
 module.exports = router;

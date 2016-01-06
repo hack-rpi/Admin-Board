@@ -75,6 +75,9 @@ exports.verifyEmail = function(id, token, callback) {
  * 
  */
 exports.findUserById = function(id, callback) {
+  if (id.length !== 24) {
+    return callback(new Error('invalid user id'), null);
+  }
 	MongoClient.connect(config.mongo_url, function(err, db) {
 		if (err) {
 			return callback(err, null);

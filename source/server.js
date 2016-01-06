@@ -31,6 +31,7 @@ require('./middlewares/passport');
 
 app.use(flash());
 app.use('/', require('./middlewares/flash'));
+app.use('/', require('./middlewares/user'));
 
 app.use('/', require('./routes'));
 

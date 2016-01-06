@@ -1,0 +1,43 @@
+{
+  "auth": {
+    "hash": {
+      "required": true,
+      "type": "string",
+      "default": ""
+    },
+    "salt": {
+      "required": true,
+      "type": "string",
+      "default": ""
+    }
+  },
+  "createdAt": {
+    "required": true,
+    "type": "Date",
+    "default": null
+  },
+  "email": {
+    "address": {
+      "required": true,
+      "type": "string",
+      "default": ""
+    },
+    "verified": {
+      "required": true,
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "profile": {
+    "name": {
+      "required": false,
+      "type": "string",
+      "default": ""
+    }
+  },
+  "role": {
+    "required": true,
+    "type": "string",
+    "default": "hacker"
+  }
+}

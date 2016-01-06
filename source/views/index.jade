@@ -1,10 +1,12 @@
 include ./includes/header.jade
 
 div.container
-	h2!= email
+  h2!= email
 
-	p Login
+  if (email)
+    p Welcome to Admin Board
+  else
+    p Login
+    include ./includes/login.jade
 
-	include ./includes/login.jade
-	
 include ./includes/footer.jade
